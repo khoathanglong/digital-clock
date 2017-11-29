@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>My own clock</title>
+	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+	<script src="clock.js"></script>
+</head>
+<body>
+	<div id="clock">
+		
+			<div class="hour0 hour">12</div>
+			<div class="hour1 hour">1</div>
+			<div class="hour2 hour">2</div>
+			<div class="hour3 hour">3</div>
+			<div class="hour4 hour">4</div>
+			<div class="hour5 hour">5</div>
+			<div class="hour6 hour">6</div>
+			<div class="hour7 hour">7</div>
+			<div class="hour8 hour">8</div>
+			<div class="hour9 hour">9</div>
+			<div class="hour10 hour">10</div>
+			<div class="hour11 hour">11</div>
+	
+		<div id='clock-hand'>
+			<div class="hand hour-hand"></div>
+			<div class="hand min-hand"></div>
+			<div class="hand second-hand"></div>
+		</div>
+	</div>
+<style>
+#clock {
+	border: 10px solid green;
+	width:200px;
+	height:200px;
+	border-radius: 50%;
+	margin: 50px auto;
+	position: relative;
+	padding: 10px;
+	}
+
+.hour{
+	position:absolute;
+	font-family:  'Oswald', sans-serif;
+}
+#clock-hand{
+	height: 100%;
+	width:100%;
+
+}
+.hand{
+	width: 50%;
+	height: 6px;
+	position: absolute;
+	top: 50%;
+	background: green;
+	transform: rotate(90deg);
+	transform-origin: 100% 100%;
+}
+.hour-hand{
+      transform: scaleX(0.7);
+    }
+.min-hand{
+      height:4px;
+      transform: scaleX(0.9)
+    }
+.second-hand{
+      height: 2px;
+      transform: scaleX(0.8)
+    }
+
+</style>	
+<script>
+$(document).ready(function(){
+	for (var i = 0; i <12  ;i++) {
+	var degree=(360/12)*i; //position degree of each hour
+	var radian=degree*(Math.PI/180); //convert degree to radian
+	var CorX=100+100*Math.sin(radian)-3.7;//calculate the coodination X minus -4 due to the size of the number=8; so the number will not be on the line)
+	var CorY=100-100*Math.cos(radian)-12;//calculate the coodination Y of each hour
+	$('.hour'+i).css('transform','translate('+CorX+'px,'+CorY+'px)')
+
+	function setTime(){
+    var time=new Date();
+    var Srotate=time.getSeconds()/60*360+90; //set Second-hand~~Degree
+    $('.second-hand').css('transform','rotate('+Srotate+'deg) scaleX(0.9)') 
+    var Mrotate=(time.getMinutes()+time.getSeconds()/60)/60*360+90; //set Minute-Hand~~Degree
+    $('.min-hand').css('transform', 'rotate('+Mrotate+'deg) scaleX(0.8)')
+    var Hrotate=(time.getHours()+time.getMinutes()/60)/12*360+90; //set Hour-hand~~Degree
+    $('.hour-hand').css('transform','rotate('+Hrotate+'deg) scaleX(0.7)')
+  };
+
+    setInterval(setTime,1000)
+    console.log()
+     //call the function repetedly after 1000ms =1 second
+
+}
+});
+</script>
+</body>
+</html>
